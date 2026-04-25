@@ -79,7 +79,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Firebase Config
+        // Firebase Тохиргоо
         const firebaseConfig = {
             apiKey: "AIzaSyDyIXlxH3WpgUyQN6H8rOrOxbF8VYCvpKs",
             authDomain: "myclass-f3b19.firebaseapp.com",
@@ -105,9 +105,9 @@
         onValue(supportRef, (snap) => document.getElementById('support-count').innerText = snap.val() || 0);
 
         window.handleSupport = () => {
-            if(localStorage.getItem('voted_10a')) return;
+            if(localStorage.getItem('voted_10a_final')) return;
             runTransaction(supportRef, (curr) => (curr || 0) + 1).then(() => {
-                localStorage.setItem('voted_10a', 'true');
+                localStorage.setItem('voted_10a_final', 'true');
                 lockBtn();
             });
         }
@@ -117,7 +117,8 @@
             const text = document.getElementById('user-comment').value;
             if (name.trim() && text.trim()) {
                 push(ref(db, 'comments'), { name, text, date: new Date().toLocaleDateString() });
-                document.getElementById('user-name').value = ''; document.getElementById('user-comment').value = '';
+                document.getElementById('user-name').value = ''; 
+                document.getElementById('user-comment').value = '';
             }
         }
 
@@ -136,7 +137,7 @@
             const btn = document.getElementById('support-btn');
             if(btn) { btn.innerText = 'ДЭМЖСЭН ✅'; btn.style.opacity = "0.5"; btn.style.pointerEvents = "none"; }
         }
-        if(localStorage.getItem('voted_10a')) lockBtn();
+        if(localStorage.getItem('voted_10a_final')) lockBtn();
     </script>
 </body>
 </html>
