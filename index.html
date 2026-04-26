@@ -21,8 +21,6 @@
         .nav-btn.active { background: #2563eb; box-shadow: 0 0 20px rgba(37, 99, 235, 0.5); border: none; }
         .nav-btn i { font-size: 20px; }
         .nav-btn span { font-size: 7px; font-weight: 800; margin-top: 4px; text-transform: uppercase; }
-        
-        .nom-card { background: linear-gradient(145deg, rgba(255,215,0,0.1), rgba(255,255,255,0.02)); border: 1px solid rgba(255,215,0,0.2); }
     </style>
 </head>
 <body>
@@ -65,17 +63,37 @@
                     <i class="fas fa-scroll"></i> Манай Ордны Түүх 📖
                 </h3>
                 <div class="space-y-4 text-gray-400 text-sm mb-8 text-justify">
-                    <p>🗓️ 2021 оны намар 10А ангийн түүх эхэлсэн. Сургуулийнхаа 6 өөр байр дамжин нүүдэллэж, өнөөдөр 42-уулаа нэгэн том гэр бүл болжээ.🏆</p>
+                    <p>🗓️ 2021 оны намар, анхны хонх дуугарахад Х. Долгоржав багшийн удирдлага дор 35 бяцхан "цэрэг" элсэн орж, 10А ангийн түүхийн эхний хуудас бичигдэж эхэлсэн юм. 🛡️</p>
+                    <p>🚀 Бид сургуулийнхаа 6 өөр байр дамжин "нүүдэллэж", олон сорилтыг хамтдаа туулсаар өнөөдөр 42-уулаа нэгэн цул, хүчирхэг гэр бүл болон төлөвшжээ.🏆</p>
                 </div>
                 <img src="https://i.ibb.co/wNTNzqx8/35-huuhdiin-zurag.jpg" class="rounded-2xl w-full border border-white/10">
+                <p class="text-[10px] text-center text-gray-400 mt-4 tracking-widest uppercase">Анхны 35 • 2021 он 📸</p>
             </div>
 
             <div class="space-y-6">
-                <div class="glass p-3"><img src="https://i.ibb.co/7t4vZBWM/aylal.jpg" class="rounded-2xl w-full h-64 object-cover"><p class="text-[10px] text-center text-gray-400 mt-4 tracking-widest uppercase">Намрын аялал 🌲</p></div>
-                <div class="glass p-3"><img src="https://i.ibb.co/PJcryn9/shine-jil.jpg" class="rounded-2xl w-full h-64 object-cover"><p class="text-[10px] text-center text-gray-400 mt-4 tracking-widest uppercase">Шинэ жил 🎄</p></div>
+                <div class="glass p-3">
+                    <img src="https://i.ibb.co/PZG918HK/3d3c3660-3847-4de2-a981-3e035445a8b1.jpg" class="rounded-2xl w-full h-64 object-cover">
+                    <p class="text-[10px] text-center text-gray-400 mt-4 tracking-widest uppercase">Гала тоглолт 🎭</p>
+                </div>
+
+                <div class="glass p-3">
+                    <img src="https://i.ibb.co/xKpqh3BX/tsagaan-sar.jpg" class="rounded-2xl w-full h-64 object-cover">
+                    <p class="text-[10px] text-center text-gray-400 mt-4 tracking-widest uppercase">Сар шинийн баяр 🧧</p>
+                </div>
+
+                <div class="glass p-3">
+                    <img src="https://i.ibb.co/7t4vZBWM/aylal.jpg" class="rounded-2xl w-full h-64 object-cover">
+                    <p class="text-[10px] text-center text-gray-400 mt-4 tracking-widest uppercase">Намрын аялал 🌲</p>
+                </div>
+
+                <div class="glass p-3">
+                    <img src="https://i.ibb.co/PJcryn9/shine-jil.jpg" class="rounded-2xl w-full h-64 object-cover">
+                    <p class="text-[10px] text-center text-gray-400 mt-4 tracking-widest uppercase">Шинэ жилийн баяр 🎄</p>
+                </div>
             </div>
 
             <div class="glass p-10 text-center relative overflow-hidden bg-gradient-to-b from-transparent to-blue-600/10">
+                <p class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.3em] mb-4">Global Support 🔥</p>
                 <div id="support-count" class="text-8xl font-black mb-8 tracking-tighter transition-all">0</div>
                 <button onclick="handleSupport()" id="support-btn" class="w-full py-5 bg-blue-600 rounded-2xl font-black shadow-lg active:scale-95 transition-all text-sm uppercase">ДЭМЖИХ 🔥</button>
             </div>
@@ -88,8 +106,7 @@
                 <input type="text" id="nom-title" placeholder="Ямар номинаци? (Хамгийн хөгжилтэй гм)..." class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none">
                 <button onclick="addNomination()" class="w-full py-4 bg-yellow-500 text-black rounded-2xl font-black uppercase text-xs">Номинаци нэмэх 🔥</button>
             </div>
-            <div id="nomination-list" class="grid grid-cols-2 gap-4">
-                </div>
+            <div id="nomination-list" class="grid grid-cols-2 gap-4"></div>
         </div>
 
         <div id="comments-tab" class="tab-content space-y-6">
@@ -104,7 +121,6 @@
     </main>
 
     <script>
-        // 1. FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyDyIXlxH3WpgUyQN6H8rOrOxbF8VYCvpKs",
             authDomain: "myclass-f3b19.firebaseapp.com",
@@ -118,21 +134,16 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 2. REFERENCES
         const supportRef = database.ref('support_count');
         const commentsRef = database.ref('comments');
         const nominationsRef = database.ref('nominations');
 
-        // SUPPORT READ
-        supportRef.on('value', (snapshot) => {
-            document.getElementById('support-count').innerText = snapshot.val() || 0;
-        });
+        supportRef.on('value', snap => document.getElementById('support-count').innerText = snap.val() || 0);
 
-        // COMMENTS READ
-        commentsRef.on('value', (snapshot) => {
+        commentsRef.on('value', snap => {
             const list = document.getElementById('comment-list');
-            const data = snapshot.val();
-            if (!data) { list.innerHTML = '<p class="text-center text-gray-600 py-10">Сэтгэгдэл алга...</p>'; return; }
+            const data = snap.val();
+            if (!data) { list.innerHTML = '<p class="text-center py-10">Сэтгэгдэл алга...</p>'; return; }
             list.innerHTML = Object.values(data).reverse().map(c => `
                 <div class="glass p-6 border-l-4 border-blue-600 bg-white/5 mb-4 animate-slideIn">
                     <p class="text-[10px] font-bold text-blue-400 mb-2 uppercase">${c.name} • ${c.date}</p>
@@ -141,23 +152,21 @@
             `).join('');
         });
 
-        // NOMINATIONS READ
-        nominationsRef.on('value', (snapshot) => {
+        nominationsRef.on('value', snap => {
             const list = document.getElementById('nomination-list');
-            const data = snapshot.val();
-            if (!data) { list.innerHTML = '<p class="col-span-2 text-center text-gray-500 py-10">Шагнал алга...</p>'; return; }
+            const data = snap.val();
+            if (!data) { list.innerHTML = '<p class="col-span-2 text-center py-10 text-gray-600">Номинаци алга...</p>'; return; }
             list.innerHTML = Object.values(data).reverse().map(n => `
-                <div class="glass p-5 border-b-4 border-yellow-500 text-center animate-slideIn nom-card">
+                <div class="glass p-5 border-b-4 border-yellow-500 text-center animate-slideIn">
                     <h4 class="text-lg font-black text-white">${n.name}</h4>
                     <p class="text-[9px] text-yellow-500 font-bold uppercase mt-1 tracking-widest">${n.title}</p>
                 </div>
             `).join('');
         });
 
-        // FUNCTIONS
         function handleSupport() {
             if (localStorage.getItem('voted_online_final')) return;
-            supportRef.transaction((curr) => (curr || 0) + 1);
+            supportRef.transaction(c => (c || 0) + 1);
             localStorage.setItem('voted_online_final', 'true');
             lockButton();
         }
@@ -188,9 +197,7 @@
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(b => {
-                b.classList.remove('active', 'text-blue-500'); b.classList.add('text-gray-400');
-            });
+            document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('active', 'text-blue-500'); b.classList.add('text-gray-400'); });
             btn.classList.add('active', 'text-blue-500');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
