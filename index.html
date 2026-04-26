@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10А | Төгс Анги 🔥</title>
+    <title>10А | Ордны Түүх 🏆</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;800&display=swap');
         body { font-family: 'Manrope', sans-serif; background-color: #050505; color: #ffffff; margin: 0; overflow-x: hidden; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: slideIn 0.4s ease-out; }
+        .tab-content { display: none; animation: slideIn 0.4s ease-out; }
+        .tab-content.active { display: block; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
         
         .side-nav { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; }
@@ -19,125 +21,181 @@
         .nav-btn.active { background: #2563eb; box-shadow: 0 0 20px rgba(37, 99, 235, 0.5); border: none; }
         .nav-btn i { font-size: 20px; }
         .nav-btn span { font-size: 7px; font-weight: 800; margin-top: 4px; text-transform: uppercase; }
+        
+        .nom-card { background: linear-gradient(145deg, rgba(255,215,0,0.1), rgba(255,255,255,0.02)); border: 1px solid rgba(255,215,0,0.2); }
     </style>
 </head>
 <body>
 
     <nav class="side-nav">
         <button onclick="switchTab('home', this)" class="nav-btn glass active text-blue-500">
-            <i class="fas fa-fort-awesome"></i><span>Орд 🏰</span>
+            <i class="fas fa-fort-awesome"></i><span>Орд</span>
+        </button>
+        <button onclick="switchTab('nominations', this)" class="nav-btn glass text-gray-400">
+            <i class="fas fa-trophy"></i><span>Шагнал</span>
         </button>
         <button onclick="switchTab('comments-tab', this)" class="nav-btn glass text-gray-400">
-            <i class="fas fa-comments"></i><span>Сэтгэгдэл 💬</span>
+            <i class="fas fa-comments"></i><span>Бичих</span>
         </button>
     </nav>
 
     <header class="p-10 pt-16 text-center">
-        <div class="inline-block px-4 py-1 rounded-full border border-blue-500/30 text-blue-400 text-[10px] font-bold tracking-[0.4em] mb-6 uppercase">🌟 THE PERFECT CLASS 🌟</div>
-        <div class="mb-6 relative inline-block group">
-            <img src="https://i.ibb.co/23sDzZ39/bagsh.jpg" class="w-28 h-28 rounded-full border-4 border-blue-600 p-1 object-cover shadow-[0_0_30px_rgba(37,99,235,0.3)] transition-all duration-500 group-hover:rotate-6" alt="Багш">
+        <div class="mb-6 relative inline-block">
+            <img src="https://i.ibb.co/23sDzZ39/bagsh.jpg" class="w-28 h-28 rounded-full border-4 border-blue-600 p-1 object-cover">
             <div class="absolute -bottom-1 -right-1 bg-blue-600 w-9 h-9 rounded-full flex items-center justify-center border-4 border-[#050505]">
                 <i class="fas fa-crown text-[12px] text-white"></i>
             </div>
         </div>
-        <h1 class="text-7xl font-black tracking-tighter italic mb-1 text-blue-500">10А</h1>
-        <p class="text-gray-500 text-sm">Удирдах Хаан: <span class="text-white font-bold underline decoration-blue-500">Х. Долгоржав</span> 👑</p>
+        <h1 class="text-7xl font-black italic mb-1 uppercase tracking-tighter">10<span class="text-blue-500">А</span></h1>
+        <p class="text-gray-500 text-sm">Ангийн багш: <span class="text-white font-bold underline decoration-blue-500">Х. Долгоржав</span> 👑</p>
     </header>
 
     <main class="px-6 pb-24 max-w-lg mx-auto">
+        
         <div id="home" class="tab-content active space-y-8">
-            <div class="glass p-10 text-center relative overflow-hidden bg-gradient-to-b from-transparent to-blue-600/10">
-                <p class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.3em] mb-4">Support Our Class ⚡</p>
-                <div id="support-count" class="text-8xl font-black mb-8 tracking-tighter">0</div>
-                <button onclick="handleSupport()" id="support-btn" class="w-full py-5 bg-blue-600 rounded-2xl font-black shadow-[0_10px_30px_rgba(37,99,235,0.4)] active:scale-95 transition-all text-sm uppercase tracking-widest">ДЭМЖИХ 🔥</button>
+            <div class="glass p-10 text-center">
+                <p class="text-2xl font-medium italic leading-relaxed">
+                    "Бид бол <span class="text-blue-400 font-extrabold">боол</span> ⛓️, <br>
+                    Багш бол <span class="text-blue-600 font-black not-italic underline decoration-double uppercase">ХААН</span> 🏰👑"
+                </p>
             </div>
 
             <div class="glass p-8">
                 <h3 class="text-xs font-bold text-blue-500 mb-6 uppercase tracking-[0.2em] flex items-center gap-2">
                     <i class="fas fa-scroll"></i> Манай Ордны Түүх 📖
                 </h3>
-                <div class="space-y-4 text-gray-400 text-sm leading-relaxed text-justify">
-                    <p>🗓️ 2021 оны намар, анхны хонх дуугарахад 10А ангийн түүхийн эхний хуудас бичигдэж эхэлсэн юм.</p>
-                    <p>✨ Өнөөдөр бид <span class="text-white font-bold">42</span>-уулаа болж, нэгэн том гэр бүл болон төлөвшжээ.</p>
-                    <p class="text-xl font-medium italic pt-4 text-center text-white">"Бид бол боол ⛓️, Багш бол ХААН 🏰👑"</p>
+                <div class="space-y-4 text-gray-400 text-sm mb-8 text-justify">
+                    <p>🗓️ 2021 оны намар 10А ангийн түүх эхэлсэн. Сургуулийнхаа 6 өөр байр дамжин нүүдэллэж, өнөөдөр 42-уулаа нэгэн том гэр бүл болжээ.🏆</p>
                 </div>
+                <img src="https://i.ibb.co/wNTNzqx8/35-huuhdiin-zurag.jpg" class="rounded-2xl w-full border border-white/10">
+            </div>
+
+            <div class="space-y-6">
+                <div class="glass p-3"><img src="https://i.ibb.co/7t4vZBWM/aylal.jpg" class="rounded-2xl w-full h-64 object-cover"><p class="text-[10px] text-center text-gray-400 mt-4 tracking-widest uppercase">Намрын аялал 🌲</p></div>
+                <div class="glass p-3"><img src="https://i.ibb.co/PJcryn9/shine-jil.jpg" class="rounded-2xl w-full h-64 object-cover"><p class="text-[10px] text-center text-gray-400 mt-4 tracking-widest uppercase">Шинэ жил 🎄</p></div>
+            </div>
+
+            <div class="glass p-10 text-center relative overflow-hidden bg-gradient-to-b from-transparent to-blue-600/10">
+                <div id="support-count" class="text-8xl font-black mb-8 tracking-tighter transition-all">0</div>
+                <button onclick="handleSupport()" id="support-btn" class="w-full py-5 bg-blue-600 rounded-2xl font-black shadow-lg active:scale-95 transition-all text-sm uppercase">ДЭМЖИХ 🔥</button>
             </div>
         </div>
 
+        <div id="nominations" class="tab-content space-y-6">
+            <h2 class="text-3xl font-black italic uppercase tracking-tighter">Хамгийн Хамгийн... 🏆</h2>
+            <div class="glass p-6 space-y-4">
+                <input type="text" id="nom-name" placeholder="Хэн? (Нэр)... 😎" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none">
+                <input type="text" id="nom-title" placeholder="Ямар номинаци? (Хамгийн хөгжилтэй гм)..." class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none">
+                <button onclick="addNomination()" class="w-full py-4 bg-yellow-500 text-black rounded-2xl font-black uppercase text-xs">Номинаци нэмэх 🔥</button>
+            </div>
+            <div id="nomination-list" class="grid grid-cols-2 gap-4">
+                </div>
+        </div>
+
         <div id="comments-tab" class="tab-content space-y-6">
-            <h2 class="text-3xl font-black italic pl-2 uppercase tracking-tighter">Сэтгэгдэл үлдээ ✍️</h2>
-            <div class="glass p-6 space-y-4 shadow-2xl border-blue-500/20">
-                <input type="text" id="user-name" placeholder="Таны нэр... 😎" class="w-full p-5 bg-white/5 border border-white/10 rounded-2xl text-white outline-none text-sm">
-                <textarea id="user-comment" placeholder="Сэтгэлийн үгээ бичээрэй... ❤️" class="w-full p-5 bg-white/5 border border-white/10 rounded-2xl text-white h-32 outline-none text-sm"></textarea>
-                <button onclick="addComment()" class="w-full py-5 bg-white text-black rounded-2xl font-black uppercase tracking-widest text-xs">Илгээх 🚀</button>
+            <h2 class="text-3xl font-black italic uppercase tracking-tighter">Сэтгэгдэл үлдээ ✍️</h2>
+            <div class="glass p-6 space-y-4">
+                <input type="text" id="user-name" placeholder="Таны нэр... 😎" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none text-sm">
+                <textarea id="user-comment" placeholder="Сэтгэлийн үгээ бичээрэй... ❤️" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white h-32 outline-none text-sm"></textarea>
+                <button onclick="addComment()" class="w-full py-4 bg-white text-black rounded-2xl font-black uppercase tracking-widest text-xs">Илгээх 🚀</button>
             </div>
             <div id="comment-list" class="space-y-4"></div>
         </div>
     </main>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        // Firebase Тохиргоо
+    <script>
+        // 1. FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyDyIXlxH3WpgUyQN6H8rOrOxbF8VYCvpKs",
             authDomain: "myclass-f3b19.firebaseapp.com",
+            databaseURL: "https://myclass-f3b19-default-rtdb.firebaseio.com",
             projectId: "myclass-f3b19",
             storageBucket: "myclass-f3b19.firebasestorage.app",
             messagingSenderId: "65737284322",
-            appId: "1:65737284322:web:f64edee5568593c1d35cbb",
-            measurementId: "G-5X6WEVCY7K",
-            databaseURL: "https://myclass-f3b19-default-rtdb.firebaseio.com"
+            appId: "1:65737284322:web:f64edee5568593c1d35cbb"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-        window.switchTab = (tabId, btn) => {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'text-blue-500'));
-            btn.classList.add('active', 'text-blue-500');
+        // 2. REFERENCES
+        const supportRef = database.ref('support_count');
+        const commentsRef = database.ref('comments');
+        const nominationsRef = database.ref('nominations');
+
+        // SUPPORT READ
+        supportRef.on('value', (snapshot) => {
+            document.getElementById('support-count').innerText = snapshot.val() || 0;
+        });
+
+        // COMMENTS READ
+        commentsRef.on('value', (snapshot) => {
+            const list = document.getElementById('comment-list');
+            const data = snapshot.val();
+            if (!data) { list.innerHTML = '<p class="text-center text-gray-600 py-10">Сэтгэгдэл алга...</p>'; return; }
+            list.innerHTML = Object.values(data).reverse().map(c => `
+                <div class="glass p-6 border-l-4 border-blue-600 bg-white/5 mb-4 animate-slideIn">
+                    <p class="text-[10px] font-bold text-blue-400 mb-2 uppercase">${c.name} • ${c.date}</p>
+                    <p class="text-sm text-gray-200">${c.text}</p>
+                </div>
+            `).join('');
+        });
+
+        // NOMINATIONS READ
+        nominationsRef.on('value', (snapshot) => {
+            const list = document.getElementById('nomination-list');
+            const data = snapshot.val();
+            if (!data) { list.innerHTML = '<p class="col-span-2 text-center text-gray-500 py-10">Шагнал алга...</p>'; return; }
+            list.innerHTML = Object.values(data).reverse().map(n => `
+                <div class="glass p-5 border-b-4 border-yellow-500 text-center animate-slideIn nom-card">
+                    <h4 class="text-lg font-black text-white">${n.name}</h4>
+                    <p class="text-[9px] text-yellow-500 font-bold uppercase mt-1 tracking-widest">${n.title}</p>
+                </div>
+            `).join('');
+        });
+
+        // FUNCTIONS
+        function handleSupport() {
+            if (localStorage.getItem('voted_online_final')) return;
+            supportRef.transaction((curr) => (curr || 0) + 1);
+            localStorage.setItem('voted_online_final', 'true');
+            lockButton();
         }
 
-        const supportRef = ref(db, 'supportCount');
-        onValue(supportRef, (snap) => document.getElementById('support-count').innerText = snap.val() || 0);
-
-        window.handleSupport = () => {
-            if(localStorage.getItem('voted_10a_final')) return;
-            runTransaction(supportRef, (curr) => (curr || 0) + 1).then(() => {
-                localStorage.setItem('voted_10a_final', 'true');
-                lockBtn();
-            });
+        function lockButton() {
+            const btn = document.getElementById('support-btn');
+            if (btn) { btn.innerText = 'ДЭМЖСЭН ✅'; btn.classList.replace('bg-blue-600', 'bg-gray-800'); btn.style.pointerEvents = "none"; }
         }
 
-        window.addComment = () => {
+        function addComment() {
             const name = document.getElementById('user-name').value;
             const text = document.getElementById('user-comment').value;
             if (name.trim() && text.trim()) {
-                push(ref(db, 'comments'), { name, text, date: new Date().toLocaleDateString() });
-                document.getElementById('user-name').value = ''; 
-                document.getElementById('user-comment').value = '';
+                commentsRef.push({ name, text, date: new Date().toLocaleDateString() });
+                document.getElementById('user-name').value = ''; document.getElementById('user-comment').value = '';
             }
         }
 
-        onValue(ref(db, 'comments'), (snap) => {
-            const list = document.getElementById('comment-list');
-            const data = snap.val();
-            list.innerHTML = data ? Object.values(data).reverse().map(c => `
-                <div class="glass p-6 border-l-4 border-blue-600 mb-4">
-                    <p class="text-[10px] font-bold text-blue-400 uppercase mb-2">${c.name} • ${c.date}</p>
-                    <p class="text-sm text-gray-200 leading-relaxed">${c.text}</p>
-                </div>
-            `).join('') : '<p class="text-center text-gray-500 italic py-10">Одоогоор сэтгэгдэл алга... ✨</p>';
-        });
-
-        function lockBtn() {
-            const btn = document.getElementById('support-btn');
-            if(btn) { btn.innerText = 'ДЭМЖСЭН ✅'; btn.style.opacity = "0.5"; btn.style.pointerEvents = "none"; }
+        function addNomination() {
+            const name = document.getElementById('nom-name').value;
+            const title = document.getElementById('nom-title').value;
+            if (name.trim() && title.trim()) {
+                nominationsRef.push({ name, title });
+                document.getElementById('nom-name').value = ''; document.getElementById('nom-title').value = '';
+            }
         }
-        if(localStorage.getItem('voted_10a_final')) lockBtn();
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('active', 'text-blue-500'); b.classList.add('text-gray-400');
+            });
+            btn.classList.add('active', 'text-blue-500');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        if (localStorage.getItem('voted_online_final')) lockButton();
     </script>
 </body>
 </html>
